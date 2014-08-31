@@ -1,0 +1,36 @@
+UPDATE 8/30 12:13 AM
+
+TODO:
+add exception classes to be thrown if 
+a) incorrect file formatting
+b) wrong character in file
+
+Start actual main playing class, remove/comment out main method in testMap
+(but preserve it for later testing purposes)
+
+for main playing class:
+	main menu
+		with options to: import custom map, use default map, or use smaller/larger default
+		after choosing map, then display instructions and:::
+		PLAY->
+	playing menu
+		for waay later
+
+UPDATE 8/31 12:42 AM
+
+DONE:
+Added initial NonSquareMap exception
+
+TODO:
+Add wrong character in custom map exception (that doesn't conform to an expected value, or multiple player locations (maybe <- this, or randomize player starting local if this happens))
+
+Start actual main playing class, remove/comment out main method in testMap
+(but preserve it for later testing purposes)
+
+for main playing class:
+	main menu
+		with options to: import custom map, use default map, or use smaller/larger default
+		after choosing map, then display instructions and:::
+		PLAY->
+	playing menu
+		for waay later

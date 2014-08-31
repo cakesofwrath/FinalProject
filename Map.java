@@ -1,21 +1,105 @@
 package FinalProject;
 
 import java.io.*;
-
-/*For now, maps will be based of 1.0.0's original 10x10 map.
-In the future, add capability to read map from text file.
+import java.util.*;
+/*NEW: 0/1 MAZE, WITH ?s=CHANGES MAP
+why are 1s and 0s still stored as chars? because ?s are included, stupid
+Also, maybe add capability to use something else beside 1s and 0s
+Java is considered "row major", meaning that it does rows first. 
+This is because a 2D array is an "array of arrays".
+Array[number of arrays][how many elements in each of those arrays]
 */
-class Map{
-	private MapUnit[][] map;
-	/*Map(File file){
-		To be added later-reads in a txt file provided by the user
-		(checks for incorrect size/errors)
-		and creates a map off that (custom size?)
-	}*/
-	Map(){
-		map=new MapUnit[10][10];
-	}
-	Map(int mapSize){
 
+class Map{
+	private MapUnit[][] mapArray;
+	String defaultFilePath="/Users/admin/code/JavaExercises/FinalProject/allZero.biMap.txt";
+	File defaultMap=new File(defaultFilePath);
+	private Hashtable<Character, Byte> gameRepresentations = new Hashtable<Character, Byte>();
+	private int mapSize=10, rowSize=0, columnSize=0, row=0, column=0;
+	Map(File file){
+		readFile(file);
+	}
+	Map(char... printValues){//Print values: open, then occupied, player, mixup
+		if(printValues.length == 4)
+			setGameRepresentations(printValues); 
+		else
+			setGameRepresentations();
+		mapArray = new MapUnit[mapSize][mapSize];//THE ISSUE: Every printValue, even if default, must be repassed
+		readFile(defaultMap);
+	}
+	Map(int mapSize){ //This will be worked on later
+		this.mapSize=mapSize;
+		mapArray = new MapUnit[mapSize][mapSize];
+		for(int i=0; i<mapArray.length; i++){
+			for(int b=0; b<mapArray[i].length; b++){
+				mapArray[i][b] = new MapUnit('0');
+			}
+		}
+	}	
+	
+	public String toString(){
+		String sToReturn="";
+		if(this.mapArray.equals(null))
+			return "ERROR"; //TODO: throw exception
+		for(int m=0; m<this.mapArray.length; m++){
+			for(int n=0; n<this.mapArray[m].length; n++){
+				
+				sToReturn += (this.mapArray[m][n]);
+			}
+			sToReturn += "\n";
+		}
+		return sToReturn;
+	}
+	public MapUnit[][] getMap(){return mapArray;}
+	private void readFile(File file){
+		try(Scanner s = new Scanner(file); Scanner sc = new Scanner(file)){
+
+			size:{
+				rowSize=s.next().length();
+				columnSize++;//This is bc the readLine reads one column/row or whatever.
+				while(s.hasNextLine()){
+					s.next();
+					columnSize++;
+				}
+			}
+			if(columnSize == rowSize){
+				this.mapSize = columnSize;
+				mapArray = new MapUnit[mapSize][mapSize];
+				int initMapUnit;
+				while(sc.hasNextLine()){
+					String line=sc.next();
+					for(column=0; column<rowSize; column++){
+						mapArray[row][column]=new MapUnit(line.charAt(column));
+					}
+					row++;
+				}
+			}
+			else{
+				throw new NonSquareMapException(rowSize, columnSize);
+			}
+		}
+		catch(FileNotFoundException exc){//Add retry capabiliity later
+			System.out.println("File not found.");
+		}
+		catch(IOException exc){
+			exc.printStackTrace();
+		}
+		catch(NonSquareMapException exc){
+			System.out.println(exc);
+		}
+	}
+	private void setGameRepresentations(char... representationValues){ //Sets game representation
+		if(representationValues.length>0){ //Checking if it exists or not,
+			gameRepresentations.put(representationValues[0], new Byte((byte)0));//Not if correct length, 
+			gameRepresentations.put(representationValues[1], new Byte((byte)1));//since the constructor has a condition to make sure the length is correct
+			gameRepresentations.put(representationValues[2], new Byte((byte)2));
+			gameRepresentations.put(representationValues[3], new Byte((byte)-1));			
+		}
+		else{
+			gameRepresentations.put('0', new Byte((byte)0));
+			gameRepresentations.put('1', new Byte((byte)1));
+			gameRepresentations.put('$', new Byte((byte)2));
+			gameRepresentations.put('?', new Byte((byte)-1));
+		}
 	}
 }
