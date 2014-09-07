@@ -12,23 +12,23 @@ Array[number of arrays][how many elements in each of those arrays]
 
 class Map{
 	private MapUnit[][] mapArray;
-	String defaultFilePath="/Users/admin/code/JavaExercises/FinalProject/allZero.biMap.txt";
+	String defaultFilePath="/Users/admin/code/JavaExercises/FinalProject/defaultMap.biMap.txt";
 	File defaultMap=new File(defaultFilePath);
 	private Hashtable<Character, Byte> gameRepresentations = new Hashtable<Character, Byte>();
 	private int mapSize=10, rowSize=0, columnSize=0, row=0, column=0;
-	Map(File file){
+	Map(File file){ //Loading a custom map
 		readFile(file);
-	}
-	Map(char... printValues){//Print values: open, then occupied, player, mixup
-		if(printValues.length == 4)
+	}						//Print values: open, then occupied, player, mixup
+	Map(char... printValues){ //This is for custom representations, or the default no arg constructor
+		if(printValues.length == 4) 
 			setGameRepresentations(printValues); 
 		else
 			setGameRepresentations();
 		mapArray = new MapUnit[mapSize][mapSize];//THE ISSUE: Every printValue, even if default, must be repassed
 		readFile(defaultMap);
 	}
-	Map(int mapSize){ //This will be worked on later
-		this.mapSize=mapSize;
+	Map(int mapSize){ //This will be worked on later..as of right now, no point?
+		this.mapSize=mapSize;//bc our default map has a certain size
 		mapArray = new MapUnit[mapSize][mapSize];
 		for(int i=0; i<mapArray.length; i++){
 			for(int b=0; b<mapArray[i].length; b++){
@@ -70,6 +70,8 @@ class Map{
 					String line=sc.next();
 					for(column=0; column<rowSize; column++){
 						mapArray[row][column]=new MapUnit(line.charAt(column));
+						if(checkRepresentationValidity(mapArray[row][column].getRep()))
+							throw new UnknownSymbolInMapException(mapArray[row][column].getRep());
 					}
 					row++;
 				}
@@ -87,6 +89,18 @@ class Map{
 		catch(NonSquareMapException exc){
 			System.out.println(exc);
 		}
+		catch(UnknownSymbolInMapException exc){
+			System.out.println(exc);
+		}
+	}
+	private boolean checkRepresentationValidity(char toBeChecked){//Later add checking for only 0/1s and such.
+		Set <Character> keys = gameRepresentations.keySet();
+		for(char c: keys){
+			if(toBeChecked!=c)
+				return false; //CURRENTLY NOT WORKING, WILL COME BACK TO IT LATER TO FIX FOR CUSTOM MAPS
+				//return true;
+		}
+		return false;
 	}
 	private void setGameRepresentations(char... representationValues){ //Sets game representation
 		if(representationValues.length>0){ //Checking if it exists or not,

@@ -27,6 +27,9 @@ public class MapUnit{
 	public byte getStatus(){
 		return status;
 	}
+	public char getRep(){//Get representations
+		return print;
+	}
 	public void flip(Byte status){
 		if(status==0)
 			status=1;
