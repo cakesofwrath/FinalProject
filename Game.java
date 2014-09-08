@@ -21,7 +21,23 @@ public class Game{
 		System.out.print("\f");
 		Map playMap = new Map();
 		System.out.println(playMap);
-		input=stdin.next().charAt(0);
+		move(stdin.next().charAt(0));
+		}
+	}
+	private void move(char direction){
+		switch(direction){
+			
+		}
+	}
+	private void showHelp(){
+		System.out.print("\f");
+		System.out.println("Your goal is to move your player from the top left corner of the map to the bottom right.");
+		System.out.println("Your character can only move on the 0s.");
+		System.out.println("If you walk into a ?, then all the 0s will flip to 1s...");
+		System.out.println("And all the 1s will flip to 0s.");
+		System.out.println("Move around by entering w, a, s, or d and then pressing enter or return.");
+		System.out.println("Got it? Press enter to return to the main menu.");
+		stdin.readLine();
 	}
 	private void terminalMainMenu(String[] msgs){
 		boolean flag = false;
@@ -30,9 +46,9 @@ public class Game{
 			flag = false;
 			switch(stdin.next().charAt(0)){
 				case 'h':
-					play();
+					showHelp();
 				break;
-				case 'c':
+				case 'c': //Do this later
 					
 				break;
 				case 'p':
