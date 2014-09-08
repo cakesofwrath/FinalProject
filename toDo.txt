@@ -44,3 +44,10 @@ TODO:
 ISSUES:
 	checking validity of the map's symbols doesn't work right now, so I disabled it, 	will fix later
 	the clearscreen \f symbol ain't work on console, but that doesn't really matter, and I don't want to implement some turrible hack to of like 20 newlines to clear the screen. It's fine, I won't need that once I move to Swing anyways.
+
+UPDATE 9/8 2:06 PM
+
+DONE:
+	Added help menu, started move method for play().
+TODO:
+	Create a player object w/ attrs
