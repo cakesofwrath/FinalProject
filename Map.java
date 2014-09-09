@@ -12,7 +12,7 @@ Array[number of arrays][how many elements in each of those arrays]
 
 class Map{
 	private MapUnit[][] mapArray;
-	String defaultFilePath="/Users/admin/code/JavaExercises/FinalProject/defaultMap.biMap.txt";
+	String defaultFilePath="FinalProject/defaultMap.biMap.txt";
 	File defaultMap=new File(defaultFilePath);
 	private Hashtable<Character, Byte> gameRepresentations = new Hashtable<Character, Byte>();
 	private int mapSize=10, rowSize=0, columnSize=0, row=0, column=0;
@@ -79,6 +79,8 @@ class Map{
 			else{
 				throw new NonSquareMapException(rowSize, columnSize);
 			}
+			s.close();//These are here b/c the finally clause doesn't work with rec's init'd in a try w/ rec's (b/c the scope is only in the try block)
+			sc.close();
 		}
 		catch(FileNotFoundException exc){//Add retry capabiliity later
 			System.out.println("File not found.");
@@ -115,5 +117,8 @@ class Map{
 			gameRepresentations.put('$', new Byte((byte)2));
 			gameRepresentations.put('?', new Byte((byte)-1));
 		}
+	}
+	public int getMapSize(){
+		return this.mapSize;
 	}
 }

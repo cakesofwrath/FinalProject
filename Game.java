@@ -2,7 +2,7 @@ package FinalProject;
 
 import java.io.*;
 import java.util.Scanner;
-public class Game{
+public class Game {
 	Scanner stdin = new Scanner(System.in);
 	final String[] defaultText = {
 		"Welcome to Binary Game!", 
@@ -10,24 +10,32 @@ public class Game{
 		"Enter c to customize!",
 		"Enter p to play!"
 	};
+	private Player currentPlayer;
+	private Map playMap;
 	Game(){
+		playMap = new Map();
+		currentPlayer = new Player(this.playMap);
 		terminalMainMenu(defaultText);
 	}
 	public static void main(String args[]){
 		Game currentGame = new Game();
 	}
 	private void play(){ //this is the default play
-		char input;
 		System.out.print("\f");
-		Map playMap = new Map();
-		System.out.println(playMap);
-		move(stdin.next().charAt(0));
+		while(keepGoin){
+			System.out.println(playMap);
+			move(stdin.next().charAt(0));
 		}
 	}
-	private void move(char direction){
+	private boolean move(char direction){
 		switch(direction){
-			
+			case 'w' : currentPlayer.move(0, -1); break; //UGLY and not sure about directions
+			case 'a' : currentPlayer.move(-1, 0); break; 
+			case 's' : currentPlayer.move(0, 1); break;
+			case 'd' : currentPlayer.move(1, 0); break;
+			default : return false; //Not needed for now, it's just nice to have confirmation of correct input or not.
 		}
+		return true;
 	}
 	private void showHelp(){
 		System.out.print("\f");
@@ -37,7 +45,7 @@ public class Game{
 		System.out.println("And all the 1s will flip to 0s.");
 		System.out.println("Move around by entering w, a, s, or d and then pressing enter or return.");
 		System.out.println("Got it? Press enter to return to the main menu.");
-		stdin.readLine();
+		stdin.nextLine();
 	}
 	private void terminalMainMenu(String[] msgs){
 		boolean flag = false;
