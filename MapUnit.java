@@ -19,6 +19,7 @@ public class MapUnit{
 
 	private char print;//Change to enums later?
 	private byte status=0;
+	private int pastX, pastY;
 	//No need for a constructor accepting char and byte argument...
 	//the status is read from the print char
 	MapUnit(char print){//overloaded constructor for the custom maps...converts print into default status string for the associated character
@@ -45,5 +46,9 @@ public class MapUnit{
 	}
 	public String toString(){
 		return Character.toString(this.print);
+	}
+	public void preserve(int x, int y){
+		this.pastX = x;
+		this.pastY = y;
 	}
 }
