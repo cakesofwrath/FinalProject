@@ -14,6 +14,9 @@ public class MapUnit{
 	1=taken
 	2=player
 	*/
+
+	//Should I change this later os that each MapUnit has its own info on standard representations? 
+
 	private char print;//Change to enums later?
 	private byte status=0;
 	//No need for a constructor accepting char and byte argument...
@@ -30,15 +33,16 @@ public class MapUnit{
 	public char getRep(){//Get representations
 		return print;
 	}
-	public void flip(Byte status){
+	public void flip(Byte status){ //fix later w/ loops and update
 		if(status==0)
 			status=1;
 		else if(status==1)
 			status=0;
 	}
-	/*public void set(char print){
-		this.print=print;
-	}*/
+	public void update(byte status, char print){
+		this.status = status;
+		this.print = print;
+	}
 	public String toString(){
 		return Character.toString(this.print);
 	}

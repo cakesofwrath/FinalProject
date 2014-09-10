@@ -51,3 +51,15 @@ DONE:
 	Added help menu, started move method for play().
 TODO:
 	Create a player object w/ attrs
+
+UPDATE 9/9 10:40 PM
+
+DONE:
+	movement,
+
+
+ISSUES:
+	resetting previous player position
+	movement is sorta flipped around
+	need to figure out coordinate system
+	winning?

@@ -21,21 +21,24 @@ public class Game {
 		Game currentGame = new Game();
 	}
 	private void play(){ //this is the default play
-		System.out.print("\f");
-		while(keepGoin){
+		playMap.update(currentPlayer.getX(), currentPlayer.getY(), (byte)2);
+		while(currentPlayer.hasntWon()){
+			System.out.print("\f");
 			System.out.println(playMap);
-			move(stdin.next().charAt(0));
+			if(move(stdin.next().charAt(0))){
+				playMap.update(currentPlayer.getX(), currentPlayer.getY(), (byte)2);
+			}
 		}
 	}
 	private boolean move(char direction){
 		switch(direction){
-			case 'w' : currentPlayer.move(0, -1); break; //UGLY and not sure about directions
-			case 'a' : currentPlayer.move(-1, 0); break; 
-			case 's' : currentPlayer.move(0, 1); break;
-			case 'd' : currentPlayer.move(1, 0); break;
+			case 'w' : if(currentPlayer.move(0, -1)) return true; break; //UGLY and not sure about directions
+			case 'a' : if(currentPlayer.move(-1, 0)) return true; break; 
+			case 's' : if(currentPlayer.move(0, 1)) return true; break;
+			case 'd' : if(currentPlayer.move(1, 0)) return true; break;
 			default : return false; //Not needed for now, it's just nice to have confirmation of correct input or not.
 		}
-		return true;
+		return false; // if move is unsuccessful
 	}
 	private void showHelp(){
 		System.out.print("\f");

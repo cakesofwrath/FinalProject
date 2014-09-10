@@ -14,11 +14,12 @@ class Map{
 	private MapUnit[][] mapArray;
 	String defaultFilePath="FinalProject/defaultMap.biMap.txt";
 	File defaultMap=new File(defaultFilePath);
-	private Hashtable<Character, Byte> gameRepresentations = new Hashtable<Character, Byte>();
+	private Hashtable<Byte, Character> gameRepresentations = new Hashtable<Byte, Character>();
 	private int mapSize=10, rowSize=0, columnSize=0, row=0, column=0;
 	Map(File file){ //Loading a custom map
 		readFile(file);
-	}						//Print values: open, then occupied, player, mixup
+	}
+							//Print values: open, then occupied, player, mixup
 	Map(char... printValues){ //This is for custom representations, or the default no arg constructor
 		if(printValues.length == 4) 
 			setGameRepresentations(printValues); 
@@ -37,6 +38,15 @@ class Map{
 		}
 	}	
 	
+	public char getGameRep(byte b){ //make sure byte sent is correct, is static so the standared getGameRep can be ref'd from wherever
+	//might wanna look at unstatickin later
+		return (gameRepresentations.get(new Byte(b)));
+	}
+
+	public void update(int x, int y, byte status){ //Status is the new status to set the updated point.
+		this.mapArray[x][y].update(status, gameRepresentations.get(new Byte(status)));
+	}
+
 	public String toString(){
 		String sToReturn="";
 		if(this.mapArray.equals(null))
@@ -70,7 +80,7 @@ class Map{
 					String line=sc.next();
 					for(column=0; column<rowSize; column++){
 						mapArray[row][column]=new MapUnit(line.charAt(column));
-						if(checkRepresentationValidity(mapArray[row][column].getRep()))
+						if(checkRepresentationValidity(mapArray[row][column].getStatus()))
 							throw new UnknownSymbolInMapException(mapArray[row][column].getRep());
 					}
 					row++;
@@ -95,10 +105,10 @@ class Map{
 			System.out.println(exc);
 		}
 	}
-	private boolean checkRepresentationValidity(char toBeChecked){//Later add checking for only 0/1s and such.
-		Set <Character> keys = gameRepresentations.keySet();
-		for(char c: keys){
-			if(toBeChecked!=c)
+	private boolean checkRepresentationValidity(byte toBeChecked){//Later add checking for only 0/1s and such.
+		Set <Byte> keys = gameRepresentations.keySet();
+		for(byte c: keys){
+			if(toBeChecked!=gameRepresentations.get(c))
 				return false; //CURRENTLY NOT WORKING, WILL COME BACK TO IT LATER TO FIX FOR CUSTOM MAPS
 				//return true;
 		}
@@ -106,16 +116,16 @@ class Map{
 	}
 	private void setGameRepresentations(char... representationValues){ //Sets game representation
 		if(representationValues.length>0){ //Checking if it exists or not,
-			gameRepresentations.put(representationValues[0], new Byte((byte)0));//Not if correct length, 
-			gameRepresentations.put(representationValues[1], new Byte((byte)1));//since the constructor has a condition to make sure the length is correct
-			gameRepresentations.put(representationValues[2], new Byte((byte)2));
-			gameRepresentations.put(representationValues[3], new Byte((byte)-1));			
+			gameRepresentations.put(new Byte((byte)0),representationValues[0]);//Not if correct length, 
+			gameRepresentations.put(new Byte((byte)1), representationValues[1]);//since the constructor has a condition to make sure the length is correct
+			gameRepresentations.put(new Byte((byte)2), representationValues[2]);
+			gameRepresentations.put(new Byte((byte)-1), representationValues[3]);			
 		}
 		else{
-			gameRepresentations.put('0', new Byte((byte)0));
-			gameRepresentations.put('1', new Byte((byte)1));
-			gameRepresentations.put('$', new Byte((byte)2));
-			gameRepresentations.put('?', new Byte((byte)-1));
+			gameRepresentations.put(new Byte((byte)0), '0');
+			gameRepresentations.put(new Byte((byte)1), '1');
+			gameRepresentations.put(new Byte((byte)2), '@');
+			gameRepresentations.put(new Byte((byte)-1), '?');
 		}
 	}
 	public int getMapSize(){

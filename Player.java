@@ -24,7 +24,16 @@ class Player {
 		else
 			return false;
 	}
-	public int[] getPosition(){
-		return new int[]{x, y};
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
+	public boolean hasntWon(){
+		if(x == 9 && y ==0)
+			return false;
+		else
+			return true;
 	}
 }
