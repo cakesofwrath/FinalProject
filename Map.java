@@ -38,6 +38,10 @@ class Map{
 		}
 	}	
 	
+	public MapUnit getMapUnit(int x, int y) {
+		return mapArray[x][y];
+	}
+
 	public char getGameRep(byte b){ //make sure byte sent is correct, is static so the standared getGameRep can be ref'd from wherever
 	//might wanna look at unstatickin later
 		return (gameRepresentations.get(new Byte(b)));
@@ -45,6 +49,10 @@ class Map{
 
 	public void update(int x, int y, byte status){ //Status is the new status to set the updated point.
 		this.mapArray[x][y].update(status, gameRepresentations.get(new Byte(status)));
+	}
+
+	public void update(int x, int y){ //For player leaving a point and it updating
+		this.mapArray[x][y].update(gameRepresentations.get(mapArray[x][y].getPrevStatus()));
 	}
 
 	public String toString(){

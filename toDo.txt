@@ -63,3 +63,13 @@ ISSUES:
 	movement is sorta flipped around
 	need to figure out coordinate system
 	winning?
+
+UPDATE 9/17 10:40 PM
+DONE:
+	tried the restoration of player's previous position to its previous position
+	still not working
+
+TODO:
+	reset portion.
+	Movement not quite right-can't move to certain parts
+	winning/flips.

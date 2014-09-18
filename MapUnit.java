@@ -18,17 +18,20 @@ public class MapUnit{
 	//Should I change this later os that each MapUnit has its own info on standard representations? 
 
 	private char print;//Change to enums later?
-	private byte status=0;
+	private byte status, prevStatus;//2nd byte is if the player is occupying the space
 	//No need for a constructor accepting char and byte argument...
 	//the status is read from the print char
 	MapUnit(char print){//overloaded constructor for the custom maps...converts print into default status string for the associated character
 		this.print=print;
 	}
-	MapUnit(){
-		this.print='0';
-	}
+	// MapUnit(){
+	// 	this.print='0';
+	// }
 	public byte getStatus(){
 		return status;
+	}
+	public byte getPrevStatus(){
+		return prevStatus;
 	}
 	public char getRep(){//Get representations
 		return print;
@@ -39,9 +42,16 @@ public class MapUnit{
 		else if(status==1)
 			status=0;
 	}
-	public void update(byte status, char print){
+	public void update(byte status, char print){ 
+		if(status == 2)
+			prevStatus = this.status;
 		this.status = status;
+		this.print = print; 
+	}
+	public void update(char print){//if the player is already there
+		this.status = prevStatus;
 		this.print = print;
+		
 	}
 	public String toString(){
 		return Character.toString(this.print);

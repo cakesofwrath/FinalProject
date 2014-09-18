@@ -12,21 +12,28 @@ public class Game {
 	};
 	private Player currentPlayer;
 	private Map playMap;
+	public static void main(String args[]){
+		Game currentGame = new Game();
+	}
 	Game(){
 		playMap = new Map();
 		currentPlayer = new Player(this.playMap);
 		terminalMainMenu(defaultText);
 	}
-	public static void main(String args[]){
-		Game currentGame = new Game();
-	}
+	
 	private void play(){ //this is the default play
+		int prevX, prevY;
+		byte prevStatus;
 		playMap.update(currentPlayer.getX(), currentPlayer.getY(), (byte)2);
 		while(currentPlayer.hasntWon()){
+			prevX = currentPlayer.getX(); 
+			prevY = currentPlayer.getY();
+			prevStatus = playMap.getMapUnit(prevX, prevY).getPrevStatus();
 			System.out.print("\f");
 			System.out.println(playMap);
 			if(move(stdin.next().charAt(0))){
 				playMap.update(currentPlayer.getX(), currentPlayer.getY(), (byte)2);
+				playMap.update(prevX, prevY);
 			}
 		}
 	}
