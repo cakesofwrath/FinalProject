@@ -53,4 +53,8 @@ public class MapUnit{
 	public String toString(){
 		return Character.toString(this.print);
 	}
+	public void preserve(int x, int y){
+		this.pastX = x;
+		this.pastY = y;
+	}
 }
