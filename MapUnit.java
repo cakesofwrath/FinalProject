@@ -15,14 +15,13 @@ public class MapUnit{
 	2=player
 	*/
 
-	//Should I change this later os that each MapUnit has its own info on standard representations? 
-
-	private char print;//Change to enums later?
-	private byte status, prevStatus;//2nd byte is if the player is occupying the space
+	//Should I change this later so that each MapUnit has its own info on standard representations? 
+	private char print, withPlayerPrint;//Change to enums later?
+	private byte status, withPlayerStatus;//2nd byte is if the player is occupying the space
 	//No need for a constructor accepting char and byte argument...
 	//the status is read from the print char
 	MapUnit(char print){//overloaded constructor for the custom maps...converts print into default status string for the associated character
-		this.print=print;
+		this.print = print;
 	}
 	// MapUnit(){
 	// 	this.print='0';
@@ -30,28 +29,26 @@ public class MapUnit{
 	public byte getStatus(){
 		return status;
 	}
-	public byte getPrevStatus(){
-		return prevStatus;
-	}
-	public char getRep(){//Get representations
+	public char getRep(){//Get representations, only here b/c of a map throw exc clause
 		return print;
 	}
-	public void flip(Byte status){ //fix later w/ loops and update
+
+	public void flip(){ //fix later w/ loops and update
 		if(status==0)
 			status=1;
 		else if(status==1)
 			status=0;
 	}
-	public void update(byte status, char print){ 
-		if(status == 2)
-			prevStatus = this.status;
-		this.status = status;
-		this.print = print; 
+	public void preserve(){
+		//this.print = withPlayerPrint;
+		this.status = withPlayerStatus;
 	}
-	public void update(char print){//if the player is already there
-		this.status = prevStatus;
-		this.print = print;
-		
+	public void update(byte status){ 
+		if(status == 2){
+			//withPlayerPrint = this.print;
+			withPlayerStatus = this.status;
+		}
+		this.status = status;
 	}
 	public String toString(){
 		return Character.toString(this.print);

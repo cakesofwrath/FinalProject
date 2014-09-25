@@ -73,3 +73,9 @@ TODO:
 	reset portion.
 	Movement not quite right-can't move to certain parts
 	winning/flips.
+
+UPDATE 9/24 10:00 PM
+DONE:
+	ALL MOVEMent bueno.
+TODO/ISSUES:
+	I F"D UP ALL THE FRIGGIN DISPLAY IN AN EFFORT TO MAKE THE MAPUNITS PRINTVAR INDPT, SO ONLY STATUS/BYTES would be used, so flippin is easier.

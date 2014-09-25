@@ -8,17 +8,23 @@ class Player {
 	Player(Map m){
 		this.currentMap = m;
 		x = 0; 
-		y = 9;
+		y = 0;
 	}
 	public boolean move(int leftright, int updown){
 		if(((x + leftright < currentMap.getMapSize())
-			&& (x + leftright > 0))
+			&& (x + leftright >= 0))
+			
 			&& //LAWD HELP ME THIS IS UGLY
+			
 			((y + updown < currentMap.getMapSize())
-			&& (y + updown > 0))){
+			&& (y + updown >= 0))){
+
+			currentMap.getMapUnit(x, y).preserve();
+
 
 			x += leftright;
 			y += updown;
+
 			return true;
 		}
 		else
@@ -30,8 +36,9 @@ class Player {
 	public int getY(){
 		return y;
 	}
+
 	public boolean hasntWon(){
-		if(x == 9 && y ==0)
+		if(x == 9 && y == 9)
 			return false;
 		else
 			return true;

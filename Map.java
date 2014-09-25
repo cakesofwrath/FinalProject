@@ -42,17 +42,18 @@ class Map{
 		return mapArray[x][y];
 	}
 
+	public void preserve(int x, int y){
+		this.getMapUnit(x, y).preserve();
+	}
+
 	public char getGameRep(byte b){ //make sure byte sent is correct, is static so the standared getGameRep can be ref'd from wherever
 	//might wanna look at unstatickin later
 		return (gameRepresentations.get(new Byte(b)));
 	}
 
 	public void update(int x, int y, byte status){ //Status is the new status to set the updated point.
-		this.mapArray[x][y].update(status, gameRepresentations.get(new Byte(status)));
-	}
-
-	public void update(int x, int y){ //For player leaving a point and it updating
-		this.mapArray[x][y].update(gameRepresentations.get(mapArray[x][y].getPrevStatus()));
+		//this.mapArray[x][y].update(status, gameRepresentations.get(new Byte(status)));
+		this.mapArray[x][y].update(status);
 	}
 
 	public String toString(){
@@ -62,7 +63,7 @@ class Map{
 		for(int m=0; m<this.mapArray.length; m++){
 			for(int n=0; n<this.mapArray[m].length; n++){
 				
-				sToReturn += (this.mapArray[m][n]);
+				sToReturn += getGameRep(this.mapArray[m][n].getStatus());
 			}
 			sToReturn += "\n";
 		}
@@ -121,6 +122,13 @@ class Map{
 				//return true;
 		}
 		return false;
+	}
+	public void flipMap(){
+		for(int i=0; i<mapSize; i++){
+			for(int j=0; j<mapSize; j++){
+				mapArray[i][j].flip();
+			}
+		}
 	}
 	private void setGameRepresentations(char... representationValues){ //Sets game representation
 		if(representationValues.length>0){ //Checking if it exists or not,
