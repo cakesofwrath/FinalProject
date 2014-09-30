@@ -13,7 +13,7 @@ public class Game {
 	private Player currentPlayer;
 	private Map playMap;
 	public static void main(String args[]){
-		Game currentGame = new Game();
+		new Game();
 	}
 	Game(){
 		playMap = new Map();

@@ -15,7 +15,7 @@ class Map{
 	String defaultFilePath="FinalProject/defaultMap.biMap.txt";
 	File defaultMap=new File(defaultFilePath);
 	private Hashtable<Byte, Character> gameRepresentations = new Hashtable<Byte, Character>();
-	private int mapSize=10, rowSize=0, columnSize=0, row=0, column=0;
+	private int mapSize=10, rowSize=0, columnSize=0;
 	Map(File file){ //Loading a custom map
 		readFile(file);
 	}
@@ -28,12 +28,14 @@ class Map{
 		mapArray = new MapUnit[mapSize][mapSize];//THE ISSUE: Every printValue, even if default, must be repassed
 		readFile(defaultMap);
 	}
-	Map(int mapSize){ //This will be worked on later..as of right now, no point?
+
+	Map(int mapSize){ //DON'T USE RITE NOW
+	//This will be worked on later..as of right now, no point?
 		this.mapSize=mapSize;//bc our default map has a certain size
 		mapArray = new MapUnit[mapSize][mapSize];
 		for(int i=0; i<mapArray.length; i++){
 			for(int b=0; b<mapArray[i].length; b++){
-				mapArray[i][b] = new MapUnit('0');
+				mapArray[i][b] = new MapUnit((byte)0);
 			}
 		}
 	}	
@@ -60,20 +62,24 @@ class Map{
 		String sToReturn="";
 		if(this.mapArray.equals(null))
 			return "ERROR"; //TODO: throw exception
-		for(int m=0; m<this.mapArray.length; m++){
-			for(int n=0; n<this.mapArray[m].length; n++){
-				
-				sToReturn += getGameRep(this.mapArray[m][n].getStatus());
-			}
+		for(int m=0; m<mapSize; m++){
+			for(int n=0; n<mapSize; n++){
+				System.out.println(mapArray[m][n].getStatus());
+				//System.out.println(getGameRep(mapArray[m][n].getStatus()));
+				sToReturn += getGameRep(mapArray[m][n].getStatus()); 
+			}														
+			System.out.println(sToReturn);	
 			sToReturn += "\n";
 		}
 		return sToReturn;
 	}
-	public MapUnit[][] getMap(){return mapArray;}
-	private void readFile(File file){
-		try(Scanner s = new Scanner(file); Scanner sc = new Scanner(file)){
 
-			size:{
+	public MapUnit[][] getMap(){return mapArray;}
+
+	private void readFile(File file){
+		int row=0, column=0;
+		try(Scanner s = new Scanner(file); Scanner sc = new Scanner(file)){
+			get_size:{
 				rowSize=s.next().length();
 				columnSize++;//This is bc the readLine reads one column/row or whatever.
 				while(s.hasNextLine()){
@@ -81,25 +87,34 @@ class Map{
 					columnSize++;
 				}
 			}
-			if(columnSize == rowSize){
+			if(columnSize == rowSize){ //If the map is square
 				this.mapSize = columnSize;
 				mapArray = new MapUnit[mapSize][mapSize];
-				int initMapUnit;
 				while(sc.hasNextLine()){
 					String line=sc.next();
 					for(column=0; column<rowSize; column++){
-						mapArray[row][column]=new MapUnit(line.charAt(column));
-						if(checkRepresentationValidity(mapArray[row][column].getStatus()))
-							throw new UnknownSymbolInMapException(mapArray[row][column].getRep());
+						//if(checkRepresentationValidity(mapArray[row][column].getStatus()))
+						//	throw new UnknownSymbolInMapException(mapArray[row][column].getRep());
+						//mapArray[row]column] = new MapUnit(line.charAt(column));	
+						System.out.println("Reading a : " + line.charAt(column));
+						switch(line.charAt(column)){
+							case '0': mapArray[row][column] = new MapUnit((byte)0); System.out.println("Init 0!"); break;
+							case '1': mapArray[row][column] = new MapUnit((byte)1); System.out.println("Init 1!"); break;
+							case '?': mapArray[row][column] = new MapUnit((byte)-1); System.out.println("Init ?!"); break;
+							case '@': mapArray[row][column] = new MapUnit((byte)2); System.out.println("Init @!"); break; //not needed for now, auto placement at top corner
+							default: System.out.println("HAIII ERRRRROOOOOOOOOR");
+						}
 					}
-					row++;
+					//System.out.println();
 				}
+					row++;
 			}
-			else{
-				throw new NonSquareMapException(rowSize, columnSize);
-			}
-			s.close();//These are here b/c the finally clause doesn't work with rec's init'd in a try w/ rec's (b/c the scope is only in the try block)
-			sc.close();
+		
+		else
+			throw new NonSquareMapException(rowSize, columnSize);
+		
+		s.close();//These are here b/c the finally clause doesn't work with rec's init'd in a try w/ rec's (b/c the scope is only in the try block)
+		sc.close();
 		}
 		catch(FileNotFoundException exc){//Add retry capabiliity later
 			System.out.println("File not found.");
@@ -110,9 +125,9 @@ class Map{
 		catch(NonSquareMapException exc){
 			System.out.println(exc);
 		}
-		catch(UnknownSymbolInMapException exc){
+		/*catch(UnknownSymbolInMapException exc){
 			System.out.println(exc);
-		}
+		}*/
 	}
 	private boolean checkRepresentationValidity(byte toBeChecked){//Later add checking for only 0/1s and such.
 		Set <Byte> keys = gameRepresentations.keySet();
