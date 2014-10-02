@@ -12,7 +12,7 @@ Array[number of arrays][how many elements in each of those arrays]
 
 class Map{
 	private MapUnit[][] mapArray;
-	String defaultFilePath="FinalProject/defaultMap.biMap.txt";
+	String defaultFilePath="FinalProject/maps/map2.biMap.txt";
 	File defaultMap=new File(defaultFilePath);
 	private Hashtable<Byte, Character> gameRepresentations = new Hashtable<Byte, Character>();
 	private int mapSize=10, rowSize=0, columnSize=0;
