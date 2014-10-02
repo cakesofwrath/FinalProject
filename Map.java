@@ -64,11 +64,9 @@ class Map{
 			return "ERROR"; //TODO: throw exception
 		for(int m=0; m<mapSize; m++){
 			for(int n=0; n<mapSize; n++){
-				System.out.println(mapArray[m][n].getStatus());
-				//System.out.println(getGameRep(mapArray[m][n].getStatus()));
 				sToReturn += getGameRep(mapArray[m][n].getStatus()); 
 			}														
-			System.out.println(sToReturn);	
+			//System.out.println("Printin a " + sToReturn);	
 			sToReturn += "\n";
 		}
 		return sToReturn;
@@ -95,19 +93,20 @@ class Map{
 					for(column=0; column<rowSize; column++){
 						//if(checkRepresentationValidity(mapArray[row][column].getStatus()))
 						//	throw new UnknownSymbolInMapException(mapArray[row][column].getRep());
-						//mapArray[row]column] = new MapUnit(line.charAt(column));	
-						System.out.println("Reading a : " + line.charAt(column));
+						//mapArray[row][column] = new MapUnit(line.charAt(column));	
+						//System.out.println("Reading a : " + line.charAt(column));
 						switch(line.charAt(column)){
-							case '0': mapArray[row][column] = new MapUnit((byte)0); System.out.println("Init 0!"); break;
-							case '1': mapArray[row][column] = new MapUnit((byte)1); System.out.println("Init 1!"); break;
-							case '?': mapArray[row][column] = new MapUnit((byte)-1); System.out.println("Init ?!"); break;
-							case '@': mapArray[row][column] = new MapUnit((byte)2); System.out.println("Init @!"); break; //not needed for now, auto placement at top corner
+							case '0': mapArray[row][column] = new MapUnit((byte)0);  break;
+							case '1': mapArray[row][column] = new MapUnit((byte)1);  break;
+							case '?': mapArray[row][column] = new MapUnit((byte)-1); break;
+							case '@': mapArray[row][column] = new MapUnit((byte)2);  break; //not needed for now, auto placement at top corner
 							default: System.out.println("HAIII ERRRRROOOOOOOOOR");
 						}
 					}
 					//System.out.println();
-				}
 					row++;
+				}
+					
 			}
 		
 		else
@@ -138,7 +137,8 @@ class Map{
 		}
 		return false;
 	}
-	public void flipMap(){
+	public void flip(){
+		//System.out.println("\nFlipping map!");
 		for(int i=0; i<mapSize; i++){
 			for(int j=0; j<mapSize; j++){
 				mapArray[i][j].flip();

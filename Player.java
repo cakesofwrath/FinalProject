@@ -10,14 +10,34 @@ class Player {
 		x = 0; 
 		y = 0;
 	}
-	public boolean move(int leftright, int updown){
-		if(((x + leftright < currentMap.getMapSize())
-			&& (x + leftright >= 0))
+	private boolean canHazMove(int lr, int ud){
+		if(((x + lr < currentMap.getMapSize())
+			&& (x + lr >= 0))
 			
 			&& //LAWD HELP ME THIS IS UGLY
 			
-			((y + updown < currentMap.getMapSize())
-			&& (y + updown >= 0))){
+			((y + ud < currentMap.getMapSize())
+			&& (y + ud >= 0))){
+
+			if(currentMap.getMapUnit(x+lr, y+ud).getStatus() != 1){ //If 
+				if(currentMap.getMapUnit(x+lr, y+ud).getStatus() == -1){
+					//System.out.println("\nMoving to a ?");
+					currentMap.flip();
+					return true;
+				}
+				else{
+					//System.out.println("\nMoving to a 0!");
+					return true;
+				}
+			}
+			else
+				return false;
+		}
+		else
+			return false;
+	}
+	public boolean move(int leftright, int updown){//Returns true if successful movement
+		if(canHazMove(leftright, updown)){
 
 			currentMap.getMapUnit(x, y).preserve();
 
@@ -27,6 +47,7 @@ class Player {
 
 			return true;
 		}
+
 		else
 			return false;
 	}

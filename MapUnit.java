@@ -22,7 +22,6 @@ public class MapUnit{
 	//the PRINT IS READ FROM THE STATUS CHAR
 	MapUnit(byte status){//overloaded constructor for the custom maps...converts print into default status string for the associated character
 		this.status = status;
-		System.out.println("Initing a mapunit with status : " + status);
 	}
 
 	MapUnit(){
