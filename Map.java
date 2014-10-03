@@ -12,19 +12,24 @@ Array[number of arrays][how many elements in each of those arrays]
 
 class Map{
 	private MapUnit[][] mapArray;
-	String defaultFilePath="FinalProject/maps/map2.biMap.txt";
-	File defaultMap=new File(defaultFilePath);
+	private final File defaultMap=new File("FinalProject/maps/defaultMap.biMap.txt");
 	private Hashtable<Byte, Character> gameRepresentations = new Hashtable<Byte, Character>();
 	private int mapSize=10, rowSize=0, columnSize=0;
 	Map(File file){ //Loading a custom map
 		readFile(file);
 	}
 							//Print values: open, then occupied, player, mixup
-	Map(char... printValues){ //This is for custom representations, or the default no arg constructor
+	/*Map(char... printValues){ //This is for custom representations, or the default no arg constructor
 		if(printValues.length == 4) 
 			setGameRepresentations(printValues); 
 		else
 			setGameRepresentations();
+		mapArray = new MapUnit[mapSize][mapSize];//THE ISSUE: Every printValue, even if default, must be repassed
+		readFile(defaultMap);
+	}*/
+
+	Map(){
+		setGameRepresentations();
 		mapArray = new MapUnit[mapSize][mapSize];//THE ISSUE: Every printValue, even if default, must be repassed
 		readFile(defaultMap);
 	}
@@ -128,6 +133,7 @@ class Map{
 			System.out.println(exc);
 		}*/
 	}
+	
 	private boolean checkRepresentationValidity(byte toBeChecked){//Later add checking for only 0/1s and such.
 		Set <Byte> keys = gameRepresentations.keySet();
 		for(byte c: keys){

@@ -1,27 +1,31 @@
 package FinalProject;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 public class Game {
+	static private final ArrayList<File> mapsDirNames = new ArrayList<File>(Arrays.asList(new File("/FinalProject/maps/").listFiles()));
 	Scanner stdin = new Scanner(System.in);
 	final String[] defaultText = {
 		"Welcome to Binary Game!", 
 		"Enter h for help!", 
-		"Enter c to customize!",
+		"Enter m for maps!",
 		"Enter p to play!"
-	};
+	};				
 	private Player currentPlayer;
 	private Map playMap;
 	public static void main(String args[]){
+		System.out.println(mapsDirNames);
 		new Game();
 	}
 	Game(){
-		playMap = new Map();
-		currentPlayer = new Player(this.playMap);
 		terminalMainMenu(defaultText);
 	}
 	
 	private void play(){ //this is the default play
+		playMap = new Map();
+		currentPlayer = new Player(this.playMap);
 		playMap.update(currentPlayer.getX(), currentPlayer.getY(), (byte)2);
 		while(currentPlayer.hasntWon()){
 			//prevStatus = playMap.getMapUnit(prevX, prevY).getPrevStatus();
@@ -33,6 +37,22 @@ public class Game {
 		}
 		System.out.println("You won!");
 	}
+
+	private void play(String fileName){
+
+	}
+
+	private int selectMaps(){ //returns the index of teh file wanted
+		int mapChosen = 0;
+		for(int i=0; i<mapsDirNames.size(); i++){
+			System.out.println((i+1) + ": " + mapsDirNames.get(i).getName());
+		}
+		while(!stdin.hasNextInt()){
+			mapChosen = stdin.nextInt() - 1;
+		} 
+		return mapChosen;
+	}
+
 	private boolean move(char direction){
 		switch(direction){
 			case 'w' : if(currentPlayer.move(-1, 0)) return true; break; //UGLY and not sure about directions
@@ -43,6 +63,8 @@ public class Game {
 		}
 		return false; // if move is unsuccessful
 	}
+
+
 	private void showHelp(){
 		System.out.print("\f");
 		System.out.println("Your goal is to move your player from the top left corner of the map to the bottom right.");
@@ -62,7 +84,7 @@ public class Game {
 				case 'h':
 					showHelp();
 				break;
-				case 'c': //Do this later
+				case 'm': //Do this later
 					
 				break;
 				case 'p':
